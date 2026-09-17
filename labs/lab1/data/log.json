@@ -1,0 +1,68 @@
+[
+    {
+        "event": "login",
+        "user": "admin",
+        "result": "success",
+        "timestamp": "2026-09-18 00:25:55",
+        "args": [
+            "admin",
+            "AdminSecurePass123!"
+        ],
+        "kwargs": {}
+    },
+    {
+        "event": "login",
+        "user": "ivan",
+        "result": "failure",
+        "timestamp": "2026-09-18 00:25:55",
+        "args": [
+            "ivan",
+            "WrongPassword123!"
+        ],
+        "kwargs": {}
+    },
+    {
+        "event": "login",
+        "user": "petro",
+        "result": "success",
+        "timestamp": "2026-09-18 00:25:55",
+        "args": [
+            "petro",
+            "PetroStrongPass456@"
+        ],
+        "kwargs": {}
+    },
+    {
+        "event": "login",
+        "user": "admin",
+        "result": "success",
+        "timestamp": "2026-09-18 00:40:09",
+        "args": [
+            "admin",
+            "AdminSecurePass123!"
+        ],
+        "kwargs": {}
+    },
+    {
+        "event": "login",
+        "user": "ivan",
+        "result": "failure",
+        "timestamp": "2026-09-18 00:40:09",
+        "args": [
+            "ivan",
+            "WrongPassword123!"
+        ],
+        "kwargs": {}
+    },
+    {
+        "event": "login",
+        "user": "petro",
+        "result": "success",
+        "timestamp": "2026-09-18 00:40:09",
+        "args": [
+            "petro",
+            "PetroStrongPass456@"
+        ],
+        "kwargs": {}
+    }
+]
