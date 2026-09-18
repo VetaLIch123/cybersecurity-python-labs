@@ -11,10 +11,8 @@ sys.path.append(
 )
 
 from shared.student import GROUP_NAME, STUDENT_NAME, VARIANT_NUMBER
-
 MIN_LENGTH = 14
 SALT = str(VARIANT_NUMBER).zfill(5)
-
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 USERS_FILE = os.path.join(DATA_DIR, "users.csv")
 LOG_FILE = os.path.join(DATA_DIR, "log.json")
@@ -34,7 +32,6 @@ def generate_hash(password: str, salt: str = "00000") -> str:
     password_with_salt = password + salt
     hash_object = hashlib.sha512(password_with_salt.encode("utf-8"))
     return hash_object.hexdigest()
-
 users_to_register = (
     ("admin", "AdminSecurePass123!"),
     ("ivan", "IvanSecurePass123!"),
