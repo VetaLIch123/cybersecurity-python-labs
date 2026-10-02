@@ -1,24 +1,25 @@
 import csv
-from datetime import datetime
-from functools import wraps
 import hashlib
 import json
 import os
 import sys
+from datetime import datetime
+from functools import wraps
 
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 
 from shared.student import GROUP_NAME, STUDENT_NAME, VARIANT_NUMBER
+
 MIN_LENGTH = 14
 SALT = str(VARIANT_NUMBER).zfill(5)
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 USERS_FILE = os.path.join(DATA_DIR, "users.csv")
 LOG_FILE = os.path.join(DATA_DIR, "log.json")
 
+
 class ValidationError(Exception):
     pass
+
 
 def generate_hash(password: str, salt: str = "00000") -> str:
     if not password:
@@ -26,12 +27,12 @@ def generate_hash(password: str, salt: str = "00000") -> str:
     if not salt:
         raise ValueError("Salt cannot be empty")
     if len(password) < MIN_LENGTH:
-        raise ValidationError(
-            f"Password must contain at least {MIN_LENGTH} characters"
-        )
+        raise ValidationError(f"Password must contain at least {MIN_LENGTH} characters")
     password_with_salt = password + salt
     hash_object = hashlib.sha512(password_with_salt.encode("utf-8"))
     return hash_object.hexdigest()
+
+
 users_to_register = (
     ("admin", "AdminSecurePass123!"),
     ("ivan", "IvanSecurePass123!"),
@@ -45,9 +46,11 @@ users_to_register = (
     ("guest", "GuestSecurePass99$"),
 )
 
+
 def create_user(username: str, password: str) -> tuple[str, str]:
     hash_value = generate_hash(password, SALT)
     return username, hash_value
+
 
 def create_users(users_list: tuple[tuple[str, str], ...]) -> None:
     try:
@@ -66,6 +69,7 @@ def create_users(users_list: tuple[tuple[str, str], ...]) -> None:
     ) as error:
         print(f"Error while creating users database: {error}")
 
+
 def read_users() -> list[tuple[str, str]]:
     users_db = []
     try:
@@ -78,6 +82,7 @@ def read_users() -> list[tuple[str, str]]:
         print(f"Error while reading users database: {error}")
     return users_db
 
+
 def print_users_db(users_db: list[tuple[str, str]]) -> None:
     print("\nUsers database:")
     print("-" * 85)
@@ -86,6 +91,7 @@ def print_users_db(users_db: list[tuple[str, str]]) -> None:
     for username, password_hash in users_db:
         print(f"{username:<20}{password_hash}")
     print("-" * 85)
+
 
 def log_event(func):
     @wraps(func)
@@ -130,7 +136,9 @@ def log_event(func):
                 ValueError,
             ) as error:
                 print(f"Error while writing log: {error}")
+
     return wrapper
+
 
 @log_event
 def login(username: str, password: str) -> bool:
@@ -155,8 +163,8 @@ def login(username: str, password: str) -> bool:
         print(f"Login error: {error}")
         return False
 
+
 def run_task3():
-    """Виконує повний цикл Завдання 3 для імпорту в main.py."""
     print("Secure User Authentication System")
     print("=" * 50)
     print(f"Student: {STUDENT_NAME}")
@@ -179,12 +187,11 @@ def run_task3():
         result = login("petro", "PetroStrongPass456@")
         print(f"petro -> {result}")
     except (
-        OSError,
-        FileNotFoundError,
-        PermissionError,
         ValidationError,
         ValueError,
     ) as error:
         print(f"Authentication error: {error}")
+
+
 if __name__ == "__main__":
     run_task3()

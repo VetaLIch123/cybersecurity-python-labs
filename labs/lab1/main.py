@@ -1,9 +1,7 @@
 import os
 import sys
 
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "../../"))
-)
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../")))
 from labs.lab1.task1 import run_task1
 from labs.lab1.task2 import run_task2
 from labs.lab1.task3 import run_task3
@@ -24,5 +22,7 @@ def main():
     print("\n" + "=" * 60)
     print("Всі завдання успішно виконано!")
     print("=" * 60)
+
+
 if __name__ == "__main__":
     main()
