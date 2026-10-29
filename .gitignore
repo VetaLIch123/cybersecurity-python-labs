@@ -1,4 +1,11 @@
 .ruff_cache/
 .idea/
+.venv/
+__pycache__/
+*.py[cod]
 labs\lab1\data/
 labs\lab2\data/
+labs/Lab3/data/*.sqlite3
+labs/Lab3/data/*.sqlite3-*
+labs/Lab3/data/*.db
+labs/Lab3/data/*.db-*

@@ -1,5 +1,3 @@
-"""Демонстрація Завдання 1 лабораторної роботи №2."""
-
 import argparse
 import sys
 from datetime import datetime, timedelta, timezone
@@ -14,6 +12,8 @@ from labs.lab2.Task1 import SESSION_TIMEOUT_SEC, Admin, User, UserAccount
 
 def run_task1_demo() -> None:
     user = User("vitalik", "vitalik@example.com", password="demo-password")
+    user2 = User("vitalik", "vitalik@example.com", password="demo-password")
+    user3 = User("vitalik", "vitalik@example.com", password="demo-password")
     account = UserAccount(user)
 
     print("Успішний вхід:", account.login("vitalik", "demo-password", "192.0.2.10"))

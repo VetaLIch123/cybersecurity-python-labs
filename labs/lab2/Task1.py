@@ -1,7 +1,4 @@
-"""Модель користувачів, сесій та аудиту для лабораторної роботи №2."""
-
 from __future__ import annotations
-
 import hashlib
 import hmac
 import os
@@ -16,8 +13,6 @@ EMAIL_PATTERN = re.compile(r"^[A-Za-z][A-Za-z0-9_]{2,63}@[A-Za-z0-9-]+(?:\.[A-Za
 
 
 class User:
-    """Користувач із перевірюваною поштою та хешованим паролем."""
-
     def __init__(
         self,
         username: str,
@@ -78,7 +73,6 @@ class User:
 
 
 class Admin(User):
-    """Користувач із додатковим набором дозволів."""
 
     def __init__(
         self,
@@ -103,9 +97,7 @@ class Admin(User):
     def __str__(self) -> str:
         return f"{super().__str__()}, permissions={sorted(self.permissions)!r}"
 
-
 class Session:
-    """Сеанс користувача з часовими мітками UTC."""
 
     def __init__(self, ip: str) -> None:
         self.ip = ip
@@ -124,15 +116,11 @@ class Session:
 
 @dataclass
 class AuditRecord:
-    """Один запис аудиту."""
-
     timestamp: datetime
     username: str
     action: str
 
-
 class AuditLog:
-    """Зберігає події користувачів у пам'яті."""
 
     def __init__(self) -> None:
         self.records: list[AuditRecord] = []
@@ -149,7 +137,6 @@ class AuditLog:
 
 
 class UserAccount:
-    """Об'єднує користувача, його сеанс і журнал аудиту."""
 
     _ALLOWED_ITEMS = {"user", "session", "audit_log"}
 

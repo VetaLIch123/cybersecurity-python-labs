@@ -1,7 +1,4 @@
-"""Аналізатор SSH/Linux auth.log для виявлення перебору паролів."""
-
 from __future__ import annotations
-
 import ipaddress
 import json
 import logging
@@ -25,24 +22,18 @@ AUTH_EVENT = re.compile(
 
 @dataclass(frozen=True)
 class AuthEvent:
-    """Розібрана подія автентифікації."""
-
     timestamp: datetime
     status: str
     username: str
     ip: str
 
-
 @dataclass(frozen=True)
 class BruteforceFinding:
-    """Серія невдалих спроб, що перевищила налаштований поріг."""
-
     ip: str
     attempts: int
     window_start: datetime
     window_end: datetime
     usernames: dict[str, int]
-
 
 def _parse_timestamp(line: str, year: int) -> datetime | None:
     prefix = SYSLOG_PREFIX.match(line)
@@ -54,9 +45,7 @@ def _parse_timestamp(line: str, year: int) -> datetime | None:
     except ValueError:
         return None
 
-
 def parse_auth_log(path: Path, year: int | None = None) -> tuple[list[AuthEvent], int]:
-    """Зчитує події Accepted/Failed із syslog-файлу; повертає події та число рядків."""
     if year is None:
         year = datetime.now().year
     events: list[AuthEvent] = []
@@ -86,11 +75,9 @@ def parse_auth_log(path: Path, year: int | None = None) -> tuple[list[AuthEvent]
 
     return events, line_count
 
-
 def detect_bruteforce(
     events: list[AuthEvent], threshold: int = 5, window_min: int = 5
 ) -> list[BruteforceFinding]:
-    """Знаходить серії з кількістю невдач строго більшою за threshold."""
     if threshold <= 0:
         raise ValueError("threshold має бути додатним числом.")
     if window_min <= 0:
@@ -124,14 +111,10 @@ def detect_bruteforce(
                         usernames=dict(Counter(event.username for event in matching_events)),
                     )
                 )
-                # Наступне вікно починаємо після зафіксованої серії,
-                # аби не виводити багато однакових сповіщень для одного burst.
                 start = end
             else:
                 start += 1
-
     return findings
-
 
 def _build_report(
     events: list[AuthEvent], line_count: int, findings: list[BruteforceFinding]
@@ -163,7 +146,6 @@ def _build_report(
         ],
         "blocked_ips": sorted({finding.ip for finding in findings}),
     }
-
 
 def _print_report(
     report: dict[str, object], findings: list[BruteforceFinding], threshold: int, window_min: int
@@ -200,7 +182,6 @@ def run_task2(
     window_min: int = 5,
     output_json: Path | None = None,
 ) -> dict[str, object]:
-    """Запускає аналіз auth.log, друкує підсумок і за потреби записує JSON."""
     auth_log = Path(auth_log)
     logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
     logging.info("Analyzing authentication events in %s...", auth_log)
